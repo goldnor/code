@@ -6,11 +6,13 @@ fn main() {
 
     // Render
 
+    env_logger::init();
     println!("P3");
     println!("{IMAGE_WIDTH} {IMAGE_HEIGHT}");
     println!("255");
 
     for j in 0..IMAGE_HEIGHT {
+        log::info!("Scanlines remaining: {}", IMAGE_HEIGHT - j);
         for i in 0..IMAGE_WIDTH {
             let r = i as f64 / (IMAGE_WIDTH - 1) as f64;
             let g = j as f64 / (IMAGE_HEIGHT - 1) as f64;
@@ -23,4 +25,5 @@ fn main() {
             println!("{ir} {ig} {ib}");
         }
     }
+    log::info!("Done.");
 }
