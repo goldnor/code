@@ -1,4 +1,6 @@
-fn main() {
+use code::color::{Color, write_color};
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Image
 
     const IMAGE_WIDTH: u32 = 256;
@@ -14,16 +16,15 @@ fn main() {
     for j in 0..IMAGE_HEIGHT {
         log::info!("Scanlines remaining: {}", IMAGE_HEIGHT - j);
         for i in 0..IMAGE_WIDTH {
-            let r = i as f64 / (IMAGE_WIDTH - 1) as f64;
-            let g = j as f64 / (IMAGE_HEIGHT - 1) as f64;
-            let b = 0.0;
-
-            let ir = (255.999 * r) as i32;
-            let ig = (255.999 * g) as i32;
-            let ib = (255.999 * b) as i32;
-
-            println!("{ir} {ig} {ib}");
+            let pixel_color = Color::new(
+                i as f64 / (IMAGE_WIDTH - 1) as f64,
+                j as f64 / (IMAGE_HEIGHT - 1) as f64,
+                0.0,
+            );
+            write_color(std::io::stdout(), pixel_color)?;
         }
     }
     log::info!("Done.");
+
+    Ok(())
 }
