@@ -1,7 +1,6 @@
 use crate::{
     hittable::{HitRecord, Hittable},
-    ray::Ray,
-    vec3::{Point3, dot},
+    prelude::*,
 };
 
 #[derive(Debug, Clone, Copy)]
