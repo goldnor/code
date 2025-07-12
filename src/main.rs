@@ -1,7 +1,7 @@
 use code::{hittable::Hittable, hittable_list::HittableList, prelude::*, sphere::Sphere};
 
 fn ray_color(r: Ray, world: &impl Hittable) -> Color {
-    if let Some(rec) = world.hit(r, 0.0, INFINITY) {
+    if let Some(rec) = world.hit(r, Interval::new(0.0, INFINITY)) {
         return 0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0));
     }
 

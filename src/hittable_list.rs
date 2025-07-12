@@ -23,10 +23,10 @@ impl HittableList {
 }
 
 impl Hittable for HittableList {
-    fn hit(&self, r: Ray, ray_tmin: f64, ray_tmax: f64) -> Option<HitRecord> {
+    fn hit(&self, r: Ray, ray_t: Interval) -> Option<HitRecord> {
         self.objects
             .iter()
-            .filter_map(|obj| obj.hit(r, ray_tmin, ray_tmax))
+            .filter_map(|obj| obj.hit(r, ray_t))
             .min_by(|a, b| a.t.partial_cmp(&b.t).expect("no NaN value"))
     }
 }
