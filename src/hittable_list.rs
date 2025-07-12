@@ -1,8 +1,6 @@
-use std::rc::Rc;
-
 use crate::{
     hittable::{HitRecord, Hittable},
-    ray::Ray,
+    prelude::*,
 };
 
 #[derive(Default)]
