@@ -16,20 +16,12 @@ impl HitRecord {
         // Sets the hit record normal vector.
         // NOTE: the parameter `outward_normal` is assumed to have unit length.
 
-        let normal;
-        let front_face;
-        if dot(r.direction(), outward_normal) > 0.0 {
-            // ray is inside the sphere
-            normal = -outward_normal;
-            front_face = false;
+        self.front_face = dot(r.direction(), outward_normal) < 0.0;
+        self.normal = if self.front_face {
+            outward_normal
         } else {
-            // ray is outside the sphere
-            normal = outward_normal;
-            front_face = true;
-        }
-
-        self.front_face = front_face;
-        self.normal = normal;
+            -outward_normal
+        };
     }
 }
 
