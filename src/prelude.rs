@@ -11,4 +11,4 @@ pub const PI: f64 = std::f64::consts::PI;
 
 // Common Headers
 
-pub use crate::{color::*, ray::*, vec3::*};
+pub use crate::{color::*, interval::Interval, ray::*, vec3::*};
