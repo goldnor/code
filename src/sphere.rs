@@ -48,6 +48,7 @@ impl Hittable for Sphere {
             t,
             p,
             normal: (p - self.center) / self.radius,
+            ..Default::default()
         };
 
         Some(rec)
