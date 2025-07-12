@@ -1,23 +1,8 @@
-use code::{
-    color::{Color, write_color},
-    ray::Ray,
-    vec3::{Point3, Vec3, dot, unit_vector},
-};
+use code::{hittable::Hittable, hittable_list::HittableList, prelude::*, sphere::Sphere};
 
-fn hit_sphere(center: Point3, radius: f64, r: Ray) -> Option<f64> {
-    let oc = center - r.origin();
-    let a = r.direction().length_squared();
-    let h = dot(r.direction(), oc);
-    let c = oc.length_squared() - radius * radius;
-    let discriminant = h * h - a * c;
-
-    (discriminant >= 0.0).then(|| (h - f64::sqrt(discriminant)) / a)
-}
-
-fn ray_color(r: Ray) -> Color {
-    if let Some(t) = hit_sphere(Point3::new(0.0, 0.0, -1.0), 0.5, r) {
-        let n = unit_vector(r.at(t) - Vec3::new(0.0, 0.0, -1.0));
-        return 0.5 * Color::new(n.x() + 1.0, n.y() + 1.0, n.z() + 1.0);
+fn ray_color(r: Ray, world: &impl Hittable) -> Color {
+    if let Some(rec) = world.hit(r, 0.0, INFINITY) {
+        return 0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0));
     }
 
     let unit_direction = unit_vector(r.direction());
@@ -36,6 +21,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let image_height = (IMAGE_WIDTH as f64 / ASPECT_RATIO) as i32;
         if image_height < 1 { 1 } else { image_height }
     };
+
+    // World
+
+    let mut world = HittableList::new();
+
+    world.add(Rc::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5)));
+    world.add(Rc::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)));
 
     // Camera
 
@@ -65,18 +57,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("255");
 
     for j in 0..IMAGE_HEIGHT {
-        log::info!("Scanlines remaining: {}", IMAGE_HEIGHT - j);
+        info!("Scanlines remaining: {}", IMAGE_HEIGHT - j);
         for i in 0..IMAGE_WIDTH {
             let pixel_center =
                 pixel00_loc + (i as f64) * pixel_delta_u + (j as f64) * pixel_delta_v;
             let ray_direction = pixel_center - camera_center;
             let r = Ray::new(camera_center, ray_direction);
 
-            let pixel_color = ray_color(r);
+            let pixel_color = ray_color(r, &world);
             write_color(std::io::stdout(), pixel_color)?;
         }
     }
-    log::info!("Done.");
+    info!("Done.");
 
     Ok(())
 }
