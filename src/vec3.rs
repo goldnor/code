@@ -34,6 +34,18 @@ impl Vec3 {
     pub fn length_squared(&self) -> f64 {
         self.e[0] * self.e[0] + self.e[1] * self.e[1] + self.e[2] * self.e[2]
     }
+
+    pub fn random() -> Self {
+        Vec3 { e: rand::random() }
+    }
+
+    pub fn random_range(min: f64, max: f64) -> Self {
+        Vec3::new(
+            rand::random_range(min..max),
+            rand::random_range(min..max),
+            rand::random_range(min..max),
+        )
+    }
 }
 
 impl Neg for Vec3 {
