@@ -141,7 +141,8 @@ impl Camera {
 
     fn ray_color(r: Ray, world: &impl Hittable) -> Color {
         if let Some(rec) = world.hit(r, Interval::new(0.0, INFINITY)) {
-            return 0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0));
+            let direction = random_on_hemisphere(rec.normal);
+            return 0.5 * Self::ray_color(Ray::new(rec.p, direction), world);
         }
 
         let unit_direction = unit_vector(r.direction());
