@@ -21,7 +21,7 @@ impl Interval {
         max: f64::INFINITY,
     };
 
-    pub fn new(min: f64, max: f64) -> Self {
+    pub const fn new(min: f64, max: f64) -> Self {
         Self { min, max }
     }
 
@@ -35,5 +35,9 @@ impl Interval {
 
     pub fn surrounds(&self, x: f64) -> bool {
         self.min < x && x < self.max
+    }
+
+    pub const fn clamp(&self, x: f64) -> f64 {
+        x.clamp(self.min, self.max)
     }
 }
