@@ -11,5 +11,6 @@ fn main() -> std::io::Result<()> {
     Camera::default()
         .with_aspect_ratio(16.0 / 9.0)
         .with_image_width(400)
+        .with_samples_per_pixel(100)
         .render(&world)
 }
