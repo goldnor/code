@@ -155,7 +155,7 @@ impl Camera {
         }
 
         if let Some(rec) = world.hit(r, Interval::new(0.001, INFINITY)) {
-            let direction = random_on_hemisphere(rec.normal);
+            let direction = rec.normal + random_unit_vector();
             return 0.5 * Self::ray_color(Ray::new(rec.p, direction), depth - 1, world);
         }
 
