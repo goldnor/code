@@ -1,11 +1,27 @@
-use crate::prelude::*;
+use crate::{
+    material::{Lambertian, Material},
+    prelude::*,
+};
 
-#[derive(Debug, Default, Clone, Copy)]
+#[derive(Clone)]
 pub struct HitRecord {
     pub p: Point3,
     pub normal: Vec3,
+    pub mat: Rc<dyn Material>,
     pub t: f64,
     pub front_face: bool,
+}
+
+impl Default for HitRecord {
+    fn default() -> Self {
+        Self {
+            p: Default::default(),
+            normal: Default::default(),
+            mat: Rc::new(Lambertian::default()),
+            t: Default::default(),
+            front_face: Default::default(),
+        }
+    }
 }
 
 impl HitRecord {
