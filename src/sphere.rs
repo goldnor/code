@@ -1,12 +1,14 @@
 use crate::{
     hittable::{HitRecord, Hittable},
+    material::{Lambertian, Material},
     prelude::*,
 };
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone)]
 pub struct Sphere {
     center: Point3,
     radius: f64,
+    mat: Rc<dyn Material>,
 }
 
 impl Sphere {
@@ -14,6 +16,8 @@ impl Sphere {
         Self {
             center,
             radius: f64::max(0.0, radius),
+            // TODO: Initialize the material pointer `mat`.
+            mat: Rc::new(Lambertian::default()),
         }
     }
 }
@@ -46,6 +50,7 @@ impl Hittable for Sphere {
         let mut rec = HitRecord {
             t,
             p,
+            mat: self.mat.clone(),
             ..Default::default()
         };
         let outward_normal = (p - self.center) / self.radius;
