@@ -35,6 +35,12 @@ impl Vec3 {
         self.e[0] * self.e[0] + self.e[1] * self.e[1] + self.e[2] * self.e[2]
     }
 
+    pub fn near_zero(&self) -> bool {
+        // Return true if the vector is close to zero in all dimensions.
+        const S: f64 = 1e-8;
+        self.e[0].abs() < S && self.e[1].abs() < S && self.e[2].abs() < S
+    }
+
     pub fn random() -> Self {
         Vec3 { e: rand::random() }
     }
