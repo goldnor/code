@@ -215,6 +215,11 @@ pub fn random_on_hemisphere(normal: Vec3) -> Vec3 {
 }
 
 #[inline]
+pub fn reflect(v: Vec3, n: Vec3) -> Vec3 {
+    v - 2.0 * dot(v, n) * n
+}
+
+#[inline]
 pub fn random_in_unit_disk() -> Vec3 {
     loop {
         let p = Vec3::new(
