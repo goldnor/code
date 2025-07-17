@@ -155,8 +155,10 @@ impl Camera {
         }
 
         if let Some(rec) = world.hit(r, Interval::new(0.001, INFINITY)) {
-            let direction = rec.normal + random_unit_vector();
-            return 0.1 * Self::ray_color(Ray::new(rec.p, direction), depth - 1, world);
+            if let Some((scattered, attenuation)) = rec.mat.scatter(r, rec.clone()) {
+                return attenuation * Self::ray_color(scattered, depth - 1, world);
+            }
+            return Color::new(0.0, 0.0, 0.0);
         }
 
         let unit_direction = unit_vector(r.direction());
