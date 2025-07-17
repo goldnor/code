@@ -1,6 +1,6 @@
 use crate::{
     hittable::{HitRecord, Hittable},
-    material::{Lambertian, Material},
+    material::Material,
     prelude::*,
 };
 
@@ -12,12 +12,11 @@ pub struct Sphere {
 }
 
 impl Sphere {
-    pub fn new(center: Point3, radius: f64) -> Self {
+    pub fn new(center: Point3, radius: f64, mat: Rc<dyn Material>) -> Self {
         Self {
             center,
             radius: f64::max(0.0, radius),
-            // TODO: Initialize the material pointer `mat`.
-            mat: Rc::new(Lambertian::default()),
+            mat,
         }
     }
 }
