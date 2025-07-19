@@ -9,6 +9,8 @@ pub struct Camera {
     pub samples_per_pixel: i32,
     // Maximum number of ray bounces into scene
     pub max_depth: i32,
+    // Vertical view angle (field of view)
+    pub vfov: f64,
 
     /// Rendered image height
     image_height: i32,
@@ -31,6 +33,7 @@ impl Default for Camera {
             image_width: 100,
             samples_per_pixel: 10,
             max_depth: 10,
+            vfov: 90.0,
             image_height: Default::default(),
             pixel_samples_scale: Default::default(),
             center: Default::default(),
@@ -62,6 +65,12 @@ impl Camera {
 
     pub fn with_max_depth(mut self, max_depth: i32) -> Self {
         self.max_depth = max_depth;
+
+        self
+    }
+
+    pub fn with_vfov(mut self, vfov: f64) -> Self {
+        self.vfov = vfov;
 
         self
     }
@@ -101,7 +110,9 @@ impl Camera {
 
         // Determine viewport dimensions.
         let focal_length = 1.0;
-        let viewport_height = 2.0;
+        let theta = self.vfov.to_radians();
+        let h = f64::tan(theta / 2.0);
+        let viewport_height = 2.0 * h * focal_length;
         let viewport_width =
             viewport_height * (self.image_width as f64) / (self.image_height as f64);
 
