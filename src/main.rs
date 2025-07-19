@@ -48,7 +48,7 @@ fn main() -> std::io::Result<()> {
         .with_image_width(400)
         .with_samples_per_pixel(100)
         .with_max_depth(50)
-        .with_vfov(90.0)
+        .with_vfov(20.0)
         .with_lookfrom(Point3::new(-2.0, 2.0, 1.0))
         .with_lookat(Point3::new(0.0, 0.0, -1.0))
         .with_vup(Point3::new(0.0, 1.0, 0.0))
