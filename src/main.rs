@@ -52,5 +52,7 @@ fn main() -> std::io::Result<()> {
         .with_lookfrom(Point3::new(-2.0, 2.0, 1.0))
         .with_lookat(Point3::new(0.0, 0.0, -1.0))
         .with_vup(Point3::new(0.0, 1.0, 0.0))
+        .with_defocus_angle(10.0)
+        .with_focus_dist(3.4)
         .render(&world)
 }
